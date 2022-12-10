@@ -1,0 +1,41 @@
+# Windows default autosave extension
+*.asv
+
+# OSX / *nix default autosave extension
+*.m~
+
+# Compiled MEX binaries (all platforms)
+*.mex*
+
+# Packaged app and toolbox files
+*.mlappinstall
+*.mltbx
+
+# Generated helpsearch folders
+helpsearch*/
+
+# Simulink code generation folders
+slprj/
+sccprj/
+
+# Matlab code generation folders
+codegen/
+
+# Simulink autosave extension
+*.autosave
+
+# Simulink cache files
+*.slxc
+
+# Octave session info
+octave-workspace
+
+Relatório - Atividade Distribuição Parte 1.pdf
+Relatório - Atividade Distribuição Parte 2.pdf
+Relatório - Atividade Distribuição Parte 3.pdf
+Relatório - Atividade Distribuição Parte 4.pdf
+Relatório - Atividade Distribuição Parte final.pdf
+Relatório - Atividade Distribuição final.pdf
+Trabalho_Distribuição_2022_2 - Parte 03.pdf
+Trabalho_Distribuição_2022_2.pdf
+trab1.xlsx
