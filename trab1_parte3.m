@@ -171,20 +171,25 @@ while (((erro_2a(iter, :) > tolerancia) | (erro_2b(iter, :) > tolerancia) | (err
     v2c(iter + 1, :) = v_c_e_pu - delta_1_2c(iter, :);
     v2n(iter + 1, :) = v_n_e_pu - delta_1_2n(iter, :);
 
-    v4a(iter + 1, :) = v_a_e_pu - delta_2_4a(iter, :);
-    v4b(iter + 1, :) = v_b_e_pu - delta_2_4b(iter, :);
-    v4c(iter + 1, :) = v_c_e_pu - delta_2_4c(iter, :);
-    v4n(iter + 1, :) = v_n_e_pu - delta_2_4n(iter, :);
+    v3a(iter + 1, :) = v2a(iter + 1, :) - delta_2_3a(iter, :);
+    v3b(iter + 1, :) = v2b(iter + 1, :) - delta_2_3b(iter, :);
+    v3c(iter + 1, :) = v2c(iter + 1, :) - delta_2_3c(iter, :);
+    v3n(iter + 1, :) = v2n(iter + 1, :) - delta_2_3n(iter, :);
 
-    v5a(iter + 1, :) = v_a_e_pu - delta_3_5a(iter, :);
-    v5b(iter + 1, :) = v_b_e_pu - delta_3_5b(iter, :);
-    v5c(iter + 1, :) = v_c_e_pu - delta_3_5c(iter, :);
-    v5n(iter + 1, :) = v_n_e_pu - delta_3_5n(iter, :);
+    v4a(iter + 1, :) = v2a(iter + 1, :) - delta_2_4a(iter, :);
+    v4b(iter + 1, :) = v2b(iter + 1, :) - delta_2_4b(iter, :);
+    v4c(iter + 1, :) = v2c(iter + 1, :) - delta_2_4c(iter, :);
+    v4n(iter + 1, :) = v2n(iter + 1, :) - delta_2_4n(iter, :);
 
-    v6a(iter + 1, :) = v_a_e_pu - delta_3_6a(iter, :);
-    v6b(iter + 1, :) = v_b_e_pu - delta_3_6b(iter, :);
-    v6c(iter + 1, :) = v_c_e_pu - delta_3_6c(iter, :);
-    v6n(iter + 1, :) = v_n_e_pu - delta_3_6n(iter, :);
+    v5a(iter + 1, :) = v3a(iter + 1, :) - delta_3_5a(iter, :);
+    v5b(iter + 1, :) = v3b(iter + 1, :) - delta_3_5b(iter, :);
+    v5c(iter + 1, :) = v3c(iter + 1, :) - delta_3_5c(iter, :);
+    v5n(iter + 1, :) = v3n(iter + 1, :) - delta_3_5n(iter, :);
+
+    v6a(iter + 1, :) = v3a(iter + 1, :) - delta_3_6a(iter, :);
+    v6b(iter + 1, :) = v3b(iter + 1, :) - delta_3_6b(iter, :);
+    v6c(iter + 1, :) = v3c(iter + 1, :) - delta_3_6c(iter, :);
+    v6n(iter + 1, :) = v3n(iter + 1, :) - delta_3_6n(iter, :);
 
     % Calcula os Erros
     erro_2a(iter + 1, :) = abs(v2a(iter + 1, :) - v2a(iter, :));
@@ -212,9 +217,17 @@ while (((erro_2a(iter, :) > tolerancia) | (erro_2b(iter, :) > tolerancia) | (err
 end
 
 % Calcula as tensões de fase-neutro
+v1an = v_a_e_pu(end, :) - v_n_e_pu(end, :);
+v1bn = v_b_e_pu(end, :) - v_n_e_pu(end, :);
+v1cn = v_c_e_pu(end, :) - v_n_e_pu(end, :);
+
 v2an = v2a(end, :) - v2n(end, :);
 v2bn = v2b(end, :) - v2n(end, :);
 v2cn = v2c(end, :) - v2n(end, :);
+
+v3an = v3a(end, :) - v3n(end, :);
+v3bn = v3b(end, :) - v3n(end, :);
+v3cn = v3c(end, :) - v3n(end, :);
 
 v4an = v4a(end, :) - v4n(end, :);
 v4bn = v4b(end, :) - v4n(end, :);
@@ -228,9 +241,32 @@ v6an = v6a(end, :) - v6n(end, :);
 v6bn = v6b(end, :) - v6n(end, :);
 v6cn = v6c(end, :) - v6n(end, :);
 
+% Calcula as perdas
+pot_entrada = ((v_a_e_pu - v_n_e_pu) .* conj(i1_2a(end, :)) + (v_b_e_pu - v_n_e_pu) .* conj(i1_2b(end, :)) + (v_c_e_pu - v_n_e_pu) .* conj(i1_2c(end, :)));
+
+pot_saida_2 = (v2an(end, :) .* conj(i2a(end, :)) + v2bn(end, :) .* conj(i2b(end, :)) + v2cn(end, :) .* conj(i2c(end, :)));
+pot_saida_4 = (v4an(end, :) .* conj(i4a(end, :)) + v4bn(end, :) .* conj(i4b(end, :)) + v4cn(end, :) .* conj(i4c(end, :)));
+pot_saida_5 = (v5an(end, :) .* conj(i5a(end, :)) + v5bn(end, :) .* conj(i5b(end, :)) + v5cn(end, :) .* conj(i5c(end, :)));
+pot_saida_6 = (v6an(end, :) .* conj(i6a(end, :)) + v6bn(end, :) .* conj(i6b(end, :)) + v6cn(end, :) .* conj(i6c(end, :)));
+pot_saida_total = pot_saida_2 +  pot_saida_4 + pot_saida_5 + pot_saida_6;
+
+pot_entrada_real = real(pot_entrada);
+pot_entrada_imag = imag(pot_entrada);
+pot_saida_total_real = real(pot_saida_total);
+pot_saida_total_imag = imag(pot_saida_total);
+
+% Resultados
+v1an = [round(abs(v1an), 4), round(rad2deg(angle(v1an)), 2)]
+v1bn = [round(abs(v1bn), 4), round(rad2deg(angle(v1bn)), 2)]
+v1cn = [round(abs(v1cn), 4), round(rad2deg(angle(v1cn)), 2)]
+
 v2an = [round(abs(v2an), 4), round(rad2deg(angle(v2an)), 2)]
-v2bn = [round(abs(v2bn), 4), round(rad2deg(angle(v2cn)), 2)]
+v2bn = [round(abs(v2bn), 4), round(rad2deg(angle(v2bn)), 2)]
 v2cn = [round(abs(v2cn), 4), round(rad2deg(angle(v2cn)), 2)]
+
+v3an = [round(abs(v3an), 4), round(rad2deg(angle(v3an)), 2)]
+v3bn = [round(abs(v3bn), 4), round(rad2deg(angle(v3bn)), 2)]
+v3cn = [round(abs(v3cn), 4), round(rad2deg(angle(v3cn)), 2)]
 
 v4an = [round(abs(v4an), 4), round(rad2deg(angle(v4an)), 2)]
 v4bn = [round(abs(v4bn), 4), round(rad2deg(angle(v4bn)), 2)]
@@ -244,15 +280,5 @@ v6an = [round(abs(v6an), 4), round(rad2deg(angle(v6an)), 2)]
 v6bn = [round(abs(v6bn), 4), round(rad2deg(angle(v6bn)), 2)]
 v6cn = [round(abs(v6cn), 4), round(rad2deg(angle(v6cn)), 2)]
 
-% Calcula as perdas
-pot_entrada = real((v_a_e_pu .* conj(i1_2a(end, :))) + (v_b_e_pu .* conj(i1_2b(end, :))) + (v_c_e_pu .* conj(i1_2c(end, :))))
-
-%pot_saida_col1 = real(sum(S2_S_fases_abc(1, :)) + sum(S4_S_fases_abc(1, :)) + sum(S5_S_fases_abc(1, :)) + sum(S6_S_fases_abc(1, :)));
-%pot_saida_col2 = real(sum(S2_S_fases_abc(2, :)) + sum(S4_S_fases_abc(2, :)) + sum(S5_S_fases_abc(2, :)) + sum(S6_S_fases_abc(2, :)));
-%pot_saida_col3 = real(sum(S2_S_fases_abc(3, :)) + sum(S4_S_fases_abc(3, :)) + sum(S5_S_fases_abc(3, :)) + sum(S6_S_fases_abc(3, :)));
-%pot_saida_col4 = real(sum(S2_S_fases_abc(4, :)) + sum(S4_S_fases_abc(4, :)) + sum(S5_S_fases_abc(4, :)) + sum(S6_S_fases_abc(4, :)));
-%pot_saida = [pot_saida_col1, pot_saida_col2, pot_saida_col3, pot_saida_col4]
-
-pot_saida = ( (v2a + v2b + v2c + v2n) * conj(i)
-
-perdas = ((pot_entrada  - pot_saida) ./ pot_saida) * 100
+perdas_reais = ((pot_entrada_real  - pot_saida_total_real) ./ pot_saida_total_real) * 100
+perdas_imag  = ((pot_entrada_imag  - pot_saida_total_imag) ./ pot_saida_total_imag) * 100
